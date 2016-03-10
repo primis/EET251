@@ -1,0 +1,306 @@
+MPASM 5.65  /HOME/PRIMIS/DROPBOX/DOCUMENTS/S   2-16-2016  17:23:35         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;====================================================================;
+                      00002 ; Filename: lab2.asm                                                 ;
+                      00003 ; Function: Assembly program used for lab 2                          ;
+                      00004 ; Author:   Nicholas Sargente                                        ;
+                      00005 ; Date:     01-28-16                                                 ;
+                      00006 ;====================================================================;
+                      00007 
+                      00008 
+                      00009 #include <general.inc>          
+                      00001 ;====================================================================;
+                      00002 ; Filename: general.h                                                ;
+                      00003 ; Function: Define all special function register and their locations ;
+                      00004 ;           For the PIC68F84A Microcontroller                        ;
+                      00005 ; Author:   Nicholas Sargente                                        ;
+                      00006 ; Date:     01-28-16                                                 ;
+                      00007 ;====================================================================;
+                      00008 
+                      00009 ;----[ Destination Designator ]-----;
+  00000000            00010 W       equ     0x0                                                     ; Register W                    
+                                            
+  00000000            00011 w       equ 0x0                                                 ;
+  00000001            00012 F       equ 0x1                                                 ; Flags Register
+  00000001            00013 f       equ 0x1                                                 ;
+  00000007            00014 MSB     equ 7                                                   ; Most Significant bit
+  00000000            00015 LSB     equ 0                                                   ; Least Significant Bit
+                      00016 ;-----------------------------------;
+                      00017 
+                      00018 
+                      00019 ;---[ PIC68F84A MEM MAP ]---;
+  00000000            00020 INDF            equ     0x00    ; Indirect File Register
+  00000001            00021 TMR0            equ     0x01    ; Real-Time Clock/Counter
+  00000002            00022 PCL             equ     0x02    ; Program Counter
+  00000003            00023 STATUS          equ     0x03    ; Status Register
+  00000004            00024 FSR             equ     0x04    ; File Select Register
+  00000005            00025 PORTA           equ     0x05    ; I/O Port A
+  00000006            00026 PORTB           equ     0x06    ; I/O Port B
+  00000008            00027 EEDATA          equ             0x08    ; EEPROM Data Register
+  00000009            00028 EEADR           equ             0x09    ; EEPROM Address Register
+  0000000A            00029 PCLATH          equ             0x0A    ; PC High Byte
+  0000000B            00030 INTCON          equ             0x0B    ; Interrupt Control Register
+  00000081            00031 OPTION_REG      equ             0x81    ; Option Register
+  00000085            00032 TRISA           equ             0x85    ; TRISA Control Register
+  00000086            00033 TRISB           equ             0x86    ; TRISB Control Register
+  00000088            00034 EECON1          equ             0x88    ; EEPROM Control Register 1
+  00000089            00035 EECON2          equ             0x89    ; EEPROM Control Register 2
+                      00036 ;---------------------------;
+                      00037 
+                      00038 ;------[ Flags ]------------;
+  00000000            00039 C           EQU         0X0     ; Carry Flag
+  00000001            00040 DC          EQU         0X1     ; Digit Carry Flag
+  00000002            00041 Z           EQU         0X2     ; Zero Flag
+  00000003            00042 PD              EQU     0X3     ; Power Down Bit
+  00000004            00043 TO              EQU     0X4     ; Watch Dog Time out Bit
+MPASM 5.65  /HOME/PRIMIS/DROPBOX/DOCUMENTS/S   2-16-2016  17:23:35         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  00000005            00044 RP0         EQU         0X5     ; Bank Select
+  00000006            00045 RP1         EQU         0X6     ; Bank Select, Unused
+  00000007            00046 IRP         EQU         0X7     ; Unused
+                      00047 
+                      00048 ;------[ Option Bits ]------;
+  00000000            00049 PS0         EQU         0X0     ; Watchdog Timer Prescaler Rate
+  00000001            00050 PS1         EQU         0X1             ;
+  00000002            00051 PS2         EQU         0X2             ;
+  00000003            00052 PSA         EQU         0X3     ; Prescaler Assign to WDT or Timer0
+  00000004            00053 TOSE        EQU         0X4     ; Timer0 Source Edge Select
+  00000005            00054 TOCS        EQU         0X5             ; Timer0 Source Select
+  00000006            00055 INTEDG      EQU         0X6     ; Interrupt Edge Select
+  00000007            00056 RBPU        EQU         0X7     ; Port B Pull Up Enable
+                      00057 ;---------------------------;
+                      00058 
+                      00059 
+                      00060 ;------[ INTCON Bits ]------;
+  00000000            00061 RBIF        EQU         0X0     ; Port B INT Flag
+  00000001            00062 INTF        EQU         0X1     ; Ext INT Flag
+  00000002            00063 TOIF        EQU         0X2     ; Timer0 Overflow INT Flag
+  00000003            00064 RBIE        EQU         0X3     ; Port B INT Enable
+  00000004            00065 INTE        EQU         0X4     ; Ext INT Enable
+  00000005            00066 TOIE        EQU         0X5     ; Timer0 Overflow INT Enable
+  00000006            00067 EEIE        EQU         0X6             ; EE Write Complete INT Enable
+  00000007            00068 GIE             EQU     0X7     ; Global INT Enable
+                      00069 ;---------------------------;
+                      00070 
+                      00071 ;-----[ Port A Pins ]-------;
+  00000000            00072 RA0             EQU     0X0     ; RA General I/O
+  00000001            00073 RA1         EQU         0X1     ; RA General I/O
+  00000002            00074 RA2         EQU         0X2     ; RA General I/O 
+  00000003            00075 RA3         EQU         0X3     ; RA General I/O 
+  00000004            00076 RA4         EQU         0X4     ; RA General I/O or Timer0 clock input 
+                      00077 ;---------------------------;
+                      00078 
+                      00079 ;----[ Port B Pins ]--------;
+  00000000            00080 RB0             EQU     0X0     ; RB General I/O
+  00000001            00081 RB1         EQU         0X1     ; RB General I/O
+  00000002            00082 RB2         EQU         0X2     ; RB General I/O 
+  00000003            00083 RB3         EQU         0X3     ; RB General I/O 
+  00000004            00084 RB4         EQU         0X4     ; RB General I/O
+  00000005            00085 RB5         EQU         0X5     ; RB General I/O 
+  00000006            00086 RB6         EQU         0X6     ; RB General I/O 
+  00000007            00087 RB7         EQU         0X7     ; RB General I/O 
+                      00088 ;---------------------------;
+                      00089 
+                      00090 ;------[ EECON1 Pins ]------;
+  00000000            00091 RD              EQU     0X0     ; Read Control Bit
+  00000001            00092 WR          EQU         0X1     ; Write Control Bit
+  00000002            00093 WREN        EQU         0X2     ; EE Write Enable 
+  00000003            00094 WRERR       EQU         0X3     ; EE Error Flag 
+  00000004            00095 EEIF        EQU         0X4     ; EE Write INT Flag
+                      00096 ;---------------------------;
+MPASM 5.65  /HOME/PRIMIS/DROPBOX/DOCUMENTS/S   2-16-2016  17:23:35         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00097 
+                      00098 ;-----[ CONFIG Register ]---;
+  0000000F            00099 CP_ON           EQU     0x000F  ; Code Protection on
+  00003FFF            00100 CP_OFF          EQU     0x3FFF  ; Code Protection off
+  00003FF7            00101 PWRTE_ON        EQU     0x3FF7  ; Power Up Timer enable
+  00003FFF            00102 PWRTE_OFF       EQU     0x3FFF  ; Power Up Timer disable
+  00003FFF            00103 WDT_ON          EQU     0x3FFF  ; Watch Dog Timer enable
+  00003FFB            00104 WDT_OFF         EQU     0x3FFB  ; Watch Dog Timer Disable
+  00003FFC            00105 LP_OSC          EQU     0x3FFC  ; CPU uses low power crystal (32K - 200K Hz)
+  00003FFD            00106 XT_OSC          EQU     0x3FFD  ; CPU uses crystal/resonator (100K - 4M Hz)
+  00003FFE            00107 HS_OSC          EQU     0x3FFE  ; CPU uses high speed crystal/resonator (4M - 20m Hz)
+  00003FFF            00108 RC_OSC          EQU     0x3FFF  ; CPU uses resistor/capacitor 
+  00003FFA            00109 HS_NO_WDT       EQU             0x3FFA  ; CPU runs above 10MHz and WDT off
+  00003FF2            00110 HS_N0_WDT_PTM   EQU     0x3FF2  ; CPU runs above 10MHz and WDT&PTM off
+                      00111 ;---------------------------;
+                      00010 
+                      00011 ;-----[ PreStart ]------;       
+2007   3FF2           00012     __CONFIG 0X3FF2     ; This is the control bits for CONFIG register
+                      00013     ORG 0X0000          ; RESET or WDT reset vector
+0000   2???           00014     GOTO        START       ; Actual Program
+                      00015     ORG 0X0004              ; Regular INT vector RESERVE THIS SPACE.  DON'T USE IT
+0004   0009           00016     RETFIE                      ; Return with Interrupt Enabled
+                      00017 ;-----------------------;
+                      00018 
+                      00019 
+                      00020 ;-----[ Start ]---------;
+0005                  00021 START                           ; Program Entry         
+0005   3049           00022     movlw 0x49              ;
+0006   3C37           00023     sublw 0x37          ;
+0007   00A0           00024     movwf 0x20              ; Put W in memory
+0008   0803           00025     movf  STATUS, W         ; Put Status in W
+0009   00A1           00026     movwf 0x21              ; Put Register W (status) in memory
+                      00027                                     ;
+000A   309D           00028     movlw 0x9D              ;
+000B   3C95           00029     sublw 0x95              ;
+000C   00A2           00030     movwf 0x22              ;
+000D   0803           00031     movf  STATUS, W         ; Put Status in W
+000E   00A3           00032     movwf 0x23              ; Put Register W (status) in memory
+                      00033                                     ;
+000F   30A2           00034     movlw 0xA2              ;
+0010   3CD8           00035     sublw 0xD8              ;
+0011   00A4           00036     movwf 0x24              ;
+0012   0803           00037     movf  STATUS, W         ; Put Status in W
+0013   00A5           00038     movwf 0x25              ; Put Register W (status) in memory
+                      00039                                     ;
+0014   30FE           00040     movlw 0xFE              ;
+0015   3E02           00041     addlw 0x02              ;
+0016   00A6           00042     movwf 0x26              ;
+0017   0803           00043     movf  STATUS, W         ; Put Status in W
+0018   00A7           00044     movwf 0x27              ; Put Register W (status) in memory
+                      00045                                     ;
+0019   30E7           00046     movlw 0xE7              ;
+001A   3EBA           00047     addlw 0xBA              ;
+MPASM 5.65  /HOME/PRIMIS/DROPBOX/DOCUMENTS/S   2-16-2016  17:23:35         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+001B   00A8           00048     movwf 0x28              ;
+001C   0803           00049     movf  STATUS, W         ; Put Status in W
+001D   00A9           00050     movwf 0x29              ; Put Register W (status) in memory
+                      00051                                     ;
+001E   300F           00052     movlw 0x0F              ;
+001F   3900           00053     andlw 0x00              ;
+0020   00AA           00054     movwf 0x2A              ;
+0021   0803           00055     movf  STATUS, W         ; Put Status in W
+0022   00AB           00056     movwf 0x2B              ; Put Register W (status) in memory
+                      00057                                     ;
+0023   30F1           00058     movlw 0xF1              ;     
+0024   38F1           00059     iorlw 0xF1              ;
+0025   00AC           00060     movwf 0x2C              ;
+0026   0803           00061     movf  STATUS, W         ; Put Status in W
+0027   00AD           00062     movwf 0x2D              ; Put Register W (status) in memory
+                      00063                                     ;
+0028   30EB           00064     movlw 0xEB              ;
+0029   3AEB           00065     xorlw 0xEB              ;
+002A   00AE           00066     movwf 0x2E              ;
+002B   0803           00067     movf  STATUS, W         ; Put Status in W
+002C   00AF           00068     movwf 0x2F              ; Put Register W (status) in memory
+                      00069                                     ;
+002D   2???           00070     GOTO $                      ; Jump to self, infinite loop 
+3FF2                  00071     END                         ;
+MPASM 5.65  /HOME/PRIMIS/DROPBOX/DOCUMENTS/S   2-16-2016  17:23:35         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C                                 00000000
+CP_OFF                            00003FFF
+CP_ON                             0000000F
+DC                                00000001
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+HS_N0_WDT_PTM                     00003FF2
+HS_NO_WDT                         00003FFA
+HS_OSC                            00003FFE
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LP_OSC                            00003FFC
+LSB                               00000000
+MSB                               00000007
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PWRTE_OFF                         00003FFF
+PWRTE_ON                          00003FF7
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RBPU                              00000007
+MPASM 5.65  /HOME/PRIMIS/DROPBOX/DOCUMENTS/S   2-16-2016  17:23:35         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RC_OSC                            00003FFF
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+START                             00000005
+STATUS                            00000003
+TMR0                              00000001
+TO                                00000004
+TOCS                              00000005
+TOIE                              00000005
+TOIF                              00000002
+TOSE                              00000004
+TRISA                             00000085
+TRISB                             00000086
+W                                 00000000
+WDT_OFF                           00003FFB
+WDT_ON                            00003FFF
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+XT_OSC                            00003FFD
+Z                                 00000002
+_.org_1_002D                      0000002D
+__16F84A                          00000001
+__DEBUG                           
+__MPLAB_DEBUGGER_SIMULATOR        1
+f                                 00000001
+w                                 00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+
