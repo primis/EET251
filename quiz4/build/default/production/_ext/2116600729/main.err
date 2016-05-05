@@ -1,0 +1,4 @@
+Message[302] ../final/main.asm 48 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[202] ../final/main.asm 50 : Argument out of range.  Least significant bits used.
+Warning[202] ../final/main.asm 53 : Argument out of range.  Least significant bits used.
+Warning[202] ../final/main.asm 56 : Argument out of range.  Least significant bits used.

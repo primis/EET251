@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=quiz.asm
+SOURCEFILES_QUOTED_IF_SPACED=../final/main.asm
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/quiz.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/quiz.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/2116600729/main.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/2116600729/main.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/quiz.o
+OBJECTFILES=${OBJECTDIR}/_ext/2116600729/main.o
 
 # Source Files
-SOURCEFILES=quiz.asm
+SOURCEFILES=../final/main.asm
 
 
 CFLAGS=
@@ -82,22 +82,22 @@ MP_LINKER_DEBUG_OPTION=
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/quiz.o: quiz.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/quiz.o.d 
-	@${RM} ${OBJECTDIR}/quiz.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/quiz.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/quiz.lst\\\" -e\\\"${OBJECTDIR}/quiz.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/quiz.o\\\" \\\"quiz.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/quiz.o"
-	@${FIXDEPS} "${OBJECTDIR}/quiz.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
+${OBJECTDIR}/_ext/2116600729/main.o: ../final/main.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/2116600729" 
+	@${RM} ${OBJECTDIR}/_ext/2116600729/main.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2116600729/main.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/_ext/2116600729/main.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/_ext/2116600729/main.lst\\\" -e\\\"${OBJECTDIR}/_ext/2116600729/main.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/_ext/2116600729/main.o\\\" \\\"../final/main.asm\\\" 
+	@${DEP_GEN} -d "${OBJECTDIR}/_ext/2116600729/main.o"
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2116600729/main.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 else
-${OBJECTDIR}/quiz.o: quiz.asm  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/quiz.o.d 
-	@${RM} ${OBJECTDIR}/quiz.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/quiz.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/quiz.lst\\\" -e\\\"${OBJECTDIR}/quiz.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/quiz.o\\\" \\\"quiz.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/quiz.o"
-	@${FIXDEPS} "${OBJECTDIR}/quiz.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
+${OBJECTDIR}/_ext/2116600729/main.o: ../final/main.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/_ext/2116600729" 
+	@${RM} ${OBJECTDIR}/_ext/2116600729/main.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2116600729/main.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/_ext/2116600729/main.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/_ext/2116600729/main.lst\\\" -e\\\"${OBJECTDIR}/_ext/2116600729/main.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/_ext/2116600729/main.o\\\" \\\"../final/main.asm\\\" 
+	@${DEP_GEN} -d "${OBJECTDIR}/_ext/2116600729/main.o"
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2116600729/main.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 endif
 
